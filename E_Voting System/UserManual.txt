@@ -1,0 +1,8 @@
+***E-VOTING SYSTEM***
+  << User Manual >>
+1) Please REMEMBER that this system is only valid for one 
+   voting process; Do not close the application when used 
+   for each ballot.
+2) Think wisely before entering the candidate chosen
+3) There will be no objections after the calculating process
+   done. 
