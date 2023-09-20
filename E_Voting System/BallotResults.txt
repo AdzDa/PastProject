@@ -1,4 +1,0 @@
-
- Candidate 0 >> 0
- Candidate 1 >> 2
- Spoilt Ballot/ Absent voters >> 0
