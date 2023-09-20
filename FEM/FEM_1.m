@@ -3,7 +3,7 @@
  Case Study    : Constant Strain Triangle (CST)
  Programme Code: 
  Section       : 
- Team Member   : ADZ
+ Team Member   : ADZ (Octave Dev)
                  BEH 
                  OOI 
 %}
