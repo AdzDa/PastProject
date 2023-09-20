@@ -1,0 +1,7 @@
+Matlab (.m file n GUI)
+Matlab Code/ Developer(Adz)
+Main code(check): SolidGUI_2
+
+This is a group project/ study case created as a supporting system to solve real-life situation of Mechanics of Solid project taught-off (air-conditioner outdoor unit bracket) while applying any related theories/ etc.
+
+Please note that the mathematical/ science/ engineering part (done in a group) in the file shared is not the main concerned here. Only for the programming part is preferable to show developer's individual past capability

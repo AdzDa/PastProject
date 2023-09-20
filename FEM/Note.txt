@@ -1,3 +1,5 @@
 Octave Software
 .m file
-Main dev:Adz
+Dev:Adz
+
+Please note that the mathematical/ science/ engineering part (done in a group) in the file shared is not the main concerned here. Only for the programming part is preferable to show developer's individualy past capability
