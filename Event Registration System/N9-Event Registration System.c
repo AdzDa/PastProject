@@ -3,9 +3,9 @@
 	2, Farah A
 	3, Hafiz R
 	4, Haziq K
-Project: Computer Engineering (CSC 099)
+Project: Computer Engineering 
 Title: Event Management System(display)
-Couse/Group Program Course : PI 009/ N9
+Couse/Group Program Course : 
 Date of submission : 15 March 2018*/
 
 #include<stdio.h>
