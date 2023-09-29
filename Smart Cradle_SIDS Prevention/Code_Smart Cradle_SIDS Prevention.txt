@@ -1,0 +1,157 @@
+ IoT Project
+ Theme: Smart Home
+ Title: Smart Crib/cradle-SIDS Prevention */
+
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+ //#define fsrLpin A12 //left Force sensor
+ //#define fsrRpin A11 //right Force sensor
+
+#include<Servo.h>
+BlynkTimer timer;
+
+char auth[]= "P7fUF5P7asHCjIisgo2ByDSAPid3HYE8"; /*Authorization 
+token for Blynk*/
+char ssid[]= "CPE_28ABC1"; /*WIFI ID*/
+char pass[]= "78602628"; /*WIFI Password*/
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+
+int Vibration_sensor=0;
+int LED= D2;
+int Buzzer= D1;
+int flag=0;
+Servo myservo;
+ 	int pos = 90;
+	 int servoCentre= D6;
+	 int servoLeft= 7;
+	 int servoRight= 4;
+	 Servo servoL;
+	 Servo servoR;
+ 		int const PULSE_SENSOR_PIN = 14; // 'S' Signal pin connected 
+to A0
+ 	int Signal; // Store incoming ADC data. Value can 
+range from 0-1024
+ 	int Threshold = 550; // Determine which Signal to "count 
+as a beat" and which to ignore.
+ 	int fsrLreading; //Variable to store FSR value
+ 	int fsrRreading;
+	 int fsrLpin=12;
+	 int fsrRpin=11;
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+//--------------------------------------------------
+void notify_AlarmOnKids()
+{
+	 int isButtonPressed= digitalRead(0);
+ 	 if (isButtonPressed==1 && flag==0)
+	 {
+		 Serial.println("Watch the KIDS");
+ 		Blynk.notify("ALERT: Watch the KIDS");
+ 		flag=1;
+ 	 } 
+ 	 else if (isButtonPressed)
+ 		{flag=0;}
+	 }
+//--------------------------------------------------
+//From Blynk to hardware (NodeMCU)
+BLYNK_WRITE(V0) //for slider: MANUALSYSTEM_SWAYCRIB //V=Virtual 
+pin
+{
+	int value= param.asInt(); //get value as integer
+	Serial.println(value);
+	myservo.write(value); 
+}
+//--------------------------------------------------
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+//void ICACHE_RAM_ATTR ISRoutine();
+
+void setup()
+{
+// put your setup code here, to run once:
+pinMode(fsrLpin, INPUT);
+pinMode(fsrRpin, INPUT);
+servoL.attach(servoLeft);
+servoR.attach(servoRight);
+//--------------------------------------------------
+pinMode(LED_BUILTIN,OUTPUT);
+//--------------------------------------------------
+pinMode(Vibration_sensor,INPUT_PULLUP);
+//--------------------------------------------------
+pinMode(servoCentre, OUTPUT);
+myservo.attach(servoCentre);
+//--------------------------------------------------
+Serial.begin(9600);
+Blynk.begin(auth, ssid, pass, "blynk-cloud.com", 80);
+//--------------------------------------------------
+timer.setInterval(1000L,notify_AlarmOnKids);
+}
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+void loop()
+{
+// put your main code here, to run repeatedly:
+//--------------------------------------------------
+fsrLreading = analogRead(fsrLpin);
+fsrRreading = analogRead(fsrRpin);
+//--------------------------------------------------
+int val; //for vibration sensor 
+val=digitalRead(Vibration_sensor);
+ if(val==1)
+ {
+ digitalWrite(LED,HIGH);
+ tone(Buzzer, 1000);
+ delay(1000);
+ digitalWrite(LED,LOW);
+ noTone(Buzzer);
+ delay(1000);
+ }
+ else
+ digitalWrite(LED,LOW);
+ noTone(Buzzer);
+//--------------------------------------------------
+Signal = analogRead(PULSE_SENSOR_PIN); // Read the sensor value
+Serial.println(Signal); // Send the signal value to 
+serial plotter
+if(Signal < Threshold)
+{ 
+digitalWrite(LED_BUILTIN,HIGH); // If the signal is above threshold, 
+turn on the LED
+ if (fsrLreading < 1)
+ {
+ servoL.write(0);
+ delay(1000);
+ servoL.write(90);
+ delay(1000);
+ servoL.write(0);
+ delay(1000);
+ } 
+ else
+ {
+ servoL.write(0);
+ }
+ if (fsrRreading < 1)
+ {
+servoR.write(0);
+delay(1000);
+servoR.write(90);
+delay(1000);
+servoR.write(0);
+ delay(1000);
+} 
+ else
+{
+servoR.write(0);
+}
+} 
+ else
+ {
+ digitalWrite(LED_BUILTIN,LOW); // Else turn off the LED
+ }
+delay(10);
+//--------------------------------------------------
+Blynk.run();
+timer.run(); 
+}
